@@ -40,6 +40,15 @@ namespace XamarinNews.ViewModels
             OnPropertyChanged(propertyName);
             return true;
         }
+        protected void SetValue<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (EqualityComparer<T>.Default.Equals(backingField, value))
+                return;
+
+            backingField = value;
+
+            OnPropertyChanged(propertyName);
+        }
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
