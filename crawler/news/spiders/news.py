@@ -20,7 +20,7 @@ run_config = {
         "description": "/html/head/meta[@name=\"description\"]/@content",
         "content": "//article[contains(@class, \"content_detail\")]/p[position()!=last()]//text()",
         "author": "//article[contains(@class, \"content_detail\")]/p[last()]/strong//text()",
-        "image": "//article[contains(@class, \"content_detail\")]//image[1]/@src"
+        "image": "//article[contains(@class, \"content_detail\")]//img[1]/@src"
     }
 }
 
@@ -48,10 +48,11 @@ class FullLinks(CrawlSpider):
                      username=db_config["db_user"], password=db_config["db_pass"],
                      authSource=db_config["db_name"])
         self.db = client[db_config["db_name"]]
+        print("connected db")
         FullLinks.rules = [Rule(LinkExtractor(allow=run_config["allowed_regex"], deny_extensions=run_config["denied_extensions"]), callback="parse_item", follow=True)]
         super(FullLinks, self)._compile_rules()
 
-    def parse_item_fb(self, response):
+    def parse_item(self, response):
         record = {
             "link": response.url,
             "category": re.search('vnexpress.net\/(.*?)\/', response.url).group(1),
@@ -64,12 +65,12 @@ class FullLinks(CrawlSpider):
             return
 
         post_collection = self.db["post"]
-        _p = list(post_collection.find({"title": record.title}))
+        _p = list(post_collection.find({"title": record["title"]}))
         if len(_p) == 0:
             post_collection.insert_one(record)
+            print("insert " + str(self.count))
 
         self.count  = self.count + 1
-
         if self.count > self.max_count:
             raise CloseSpider("reach result's max count")
 
