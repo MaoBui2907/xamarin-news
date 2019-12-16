@@ -9,7 +9,7 @@ from pymongo import MongoClient
 from mongo_json import MongoJSONEncoder
 
 # read env
-with open('env.json') as f:
+with open('./env.json') as f:
     env = json.load(f)
 
 # connect database
@@ -57,4 +57,4 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False,host='0.0.0.0', port=1998)
