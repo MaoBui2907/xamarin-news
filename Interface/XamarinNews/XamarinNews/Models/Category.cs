@@ -14,5 +14,15 @@ namespace XamarinNews.Models
         public string Icon { get; set; }
         [MaxLength(255)]
         public string Path { get; set; }
+
+
+        public static List<Category> GetCategories()
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(App.DatabasePath))
+            {
+                conn.CreateTable<Category>();
+                return conn.Table<Category>().ToList();
+            }
+        }
     }
 }

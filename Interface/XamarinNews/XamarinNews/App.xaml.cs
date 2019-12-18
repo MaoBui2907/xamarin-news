@@ -8,12 +8,20 @@ namespace XamarinNews
 {
     public partial class App : Application
     {
+        public static string DatabasePath;
 
-        public App()
+        public static CategoryManager CategoryManager { get; private set; }
+
+        public App(string databasePath)
         {
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+
+            CategoryManager = new CategoryManager (new RestService ());
+
+            DatabasePath = databasePath;
+
             MainPage = new MainPage();
         }
 

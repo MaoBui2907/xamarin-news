@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
+
 using XamarinNews.Models;
+using XamarinNews.Views;
+
 namespace XamarinNews.ViewModels
 {
     public class CategoryViewModel : BaseViewModel
     {
         public int index { get; set; }
-        public CategoryViewModel() { }
 
-        public CategoryViewModel(Category category)
+        public ObservableCollection<Category> Categories { get; set; }
+        public CategoryViewModel()
         {
-            index = category.Index;
-            _title = category.Title;
-            icon = category.Icon;
-            path = category.Path;
+            Title = "Danh sách";
+            Categories = new ObservableCollection<Category>();
         }
-        public string _title { get; set; }
-        public string icon { get; set; }
-        public string path { get; set; }
 
-        public ImageSource IconImage
+        public void getCategory()
         {
-            get
+            var categories = Category.GetCategories();
+            Categories.Clear();
+            foreach(var category in categories)
             {
-                return ImageSource.FromResource("https://cdn3.iconfinder.com/data/icons/media-1-3/32/Internet-Globe-Communication-512.png");
+                Categories.Add(category);
             }
         }
     }
-
-
 }
-}
+
