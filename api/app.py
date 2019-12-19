@@ -32,13 +32,16 @@ def fetch_category():
     return jsonify(data=categories)
 
 # fetch news in category
-@app.route('/api/news/fetch/<string:category_path>', methods=['GET'])
-def fetch_news(category_path):
+@app.route('/api/news/fetch/<string:category_path>/<int:p_>', methods=['GET'])
+def fetch_news(category_path, p_):
+    _lim = 20
+    _skip = _lim * (p_ - 1)
     post_collection = db["post"]
-    posts = list(post_collection.find({"category": category_path}))
+    posts = list(post_collection.find({"category": category_path}).skip(_skip).limit(_lim))
     if len(posts) == 0:
         abort(404)
-    return jsonify(data=posts)
+    remain_len = len(post_collection.find({"category": category_path})) - len(posts) - _skip
+    return jsonify(data=posts,haveMore=(remain_len > 0))
 
 # get news with id
 @app.route('/api/news/get/<string:id_>', methods=['GET'])
