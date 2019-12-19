@@ -15,9 +15,9 @@ namespace XamarinNews.Services
         {
             restService = service;
         }
-        public Task<List<Post>> FetchPostsAsync(string path)
+        public Task<List<Post>> FetchPostsAsync(string path, int page)
         {
-            return restService.FetchPostsAsync(path);
+            return restService.FetchPostsAsync(path, page);
         }
 
         public Task<Post> GetPostAsync(string ind)

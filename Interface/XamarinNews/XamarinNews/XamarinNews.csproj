@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <Compile Remove="Models\Models.cs" />
+    <Compile Remove="Views\MenuPage.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\MenuPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,11 +6,13 @@ using XamarinNews.Models;
 using XamarinNews.Views;
 namespace XamarinNews.ViewModels
 {
-    class PostListViewModel
+    class PostListViewModel : BaseViewModel
     {
-        public PostListViewModel()
+        public PostListViewModel(string t)
         {
-            
+            Title = t;
         }
+
+
     }
 }

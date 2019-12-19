@@ -42,10 +42,10 @@ namespace XamarinNews.Services
             return categories;
         }
 
-        public async Task<List<Post>> FetchPostsAsync(string path)
+        public async Task<List<Post>> FetchPostsAsync(string path, int page)
         {
             posts = new List<Post>();
-            var uri = new Uri(string.Format(Constants.PostUrl, "/", path));
+            var uri = new Uri(string.Format(Constants.PostUrl, "/", path, "/", page));
             try
             {
                 var respone = await _client.GetAsync(uri);

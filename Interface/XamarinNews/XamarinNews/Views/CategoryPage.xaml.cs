@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Collections.ObjectModel;
 using XamarinNews.Models;
-using XamarinNews.Views;
 using XamarinNews.ViewModels;
 
 namespace XamarinNews.Views
@@ -17,7 +16,6 @@ namespace XamarinNews.Views
     public partial class CategoryPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
-        List<HomeMenuItem> menuItems;
 
         CategoryViewModel viewModel;
         ObservableCollection<Category> categories;
@@ -34,12 +32,8 @@ namespace XamarinNews.Views
         {
             base.OnAppearing();
             
-            viewModel.getCategory();
-            categories = viewModel.Categories;
+            categories = new ObservableCollection<Category>(viewModel.GetCategories());
             ListViewMenu.ItemsSource = categories;
-
-            menuItems = new List<HomeMenuItem>();
-        
 
             ListViewMenu.SelectedItem = categories[0];
         }
@@ -50,7 +44,7 @@ namespace XamarinNews.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new PostListPage(Category.toList()));
+            await Navigation.PushAsync(new PostListPage(item.toList()));
 
         }
     }
