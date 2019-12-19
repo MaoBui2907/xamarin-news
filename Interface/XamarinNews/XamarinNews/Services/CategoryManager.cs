@@ -14,9 +14,9 @@ namespace XamarinNews.Services
             restService = service;
         }
 
-        public Task<List<Category>> GetCategoriesAsync()
+        public Task<List<Category>> FetchCategoriesAsync()
         {
-            return restService.GetCategoriesAsync();
+            return restService.FetchCategoriesAsync();
         }
     }
 }

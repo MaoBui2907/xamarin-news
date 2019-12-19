@@ -7,8 +7,9 @@ namespace XamarinNews.Services
 {
     public interface IRestService
     {
-        Task<List<Category>> GetCategoriesAsync();
-        Task<List<Post>> GetPostsAsync();
+        Task<List<Category>> FetchCategoriesAsync();
+        Task<List<Post>> FetchPostsAsync(string path);
+        Task<Post> GetPostAsync(string ind);
 
     }
 }

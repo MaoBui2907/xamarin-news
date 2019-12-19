@@ -11,7 +11,8 @@ namespace XamarinNews
         public static string DatabasePath;
 
         public static CategoryManager CategoryManager { get; private set; }
-
+        public static PostManager PostManager { get; private set; }
+        
         public App(string databasePath)
         {
             InitializeComponent();
@@ -19,6 +20,7 @@ namespace XamarinNews
             DependencyService.Register<MockDataStore>();
 
             CategoryManager = new CategoryManager (new RestService ());
+            PostManager = new PostManager(new RestService());
 
             DatabasePath = databasePath;
 

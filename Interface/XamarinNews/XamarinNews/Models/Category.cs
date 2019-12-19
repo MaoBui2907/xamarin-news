@@ -4,6 +4,12 @@ using System.Text;
 using SQLite;
 namespace XamarinNews.Models
 {
+    
+    
+    data = [
+        ["0", "giao duc", "/giao-duc", ]
+        ]
+
     public class Category
     {
         [PrimaryKey, AutoIncrement]
@@ -21,6 +27,9 @@ namespace XamarinNews.Models
             using (SQLiteConnection conn = new SQLiteConnection(App.DatabasePath))
             {
                 conn.CreateTable<Category>();
+
+
+
                 return conn.Table<Category>().ToList();
             }
         }

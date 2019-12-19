@@ -15,10 +15,14 @@ namespace XamarinNews.Services
         {
             restService = service;
         }
-
-        public Task<List<Post>> GetPostsAsync()
+        public Task<List<Post>> FetchPostsAsync(string path)
         {
-            return restService.GetPostsAsync();
+            return restService.FetchPostsAsync(path);
+        }
+
+        public Task<Post> GetPostAsync(string ind)
+        {
+            return restService.GetPostAsync(ind);
         }
     }
 }

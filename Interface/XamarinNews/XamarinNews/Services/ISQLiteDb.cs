@@ -8,5 +8,6 @@ namespace XamarinNews.Database
     public interface ISQLiteDb
     {
         SQLiteAsyncConnection GetConnection();
+
     }
 }
