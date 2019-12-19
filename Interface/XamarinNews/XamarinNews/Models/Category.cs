@@ -36,7 +36,7 @@ namespace XamarinNews.Models
         {
 
             //List<Category> Initialdata = new List<Category> { new Category { Title = "Trend", Icon = "D", Path = "/Trend" }, new Category { Title = "Văn Hóa", Icon = "DD", Path = "/van-hoa" } };
-            string[][] initialdata = new string[][] {new string[] {"1", "Trend", "EX1", "/tin-hot"}, new string[] { "10", "Văn Hóa", "EX1", "/van-hoa"},
+            string[][] initialdata = new string[][] {new string[] {"1", "Tin nóng", "EX1", "/tin-hot"}, new string[] { "10", "Văn Hóa", "EX1", "/van-hoa"},
             new string[] {"2", "Sức khỏe", "EX1", "/suc-khoe"}, new string[] {"3", "Giáo dục", "EX1", "/giao-duc"}, new string[] {"4", "Thể thao", "EX1", "/the-thao"},
             new string[] {"5", "Showbiz", "EX1", "/showbiz"}, new string[] {"6", "Đời sống", "EX1", "/doi-song"}};
 
@@ -69,6 +69,11 @@ namespace XamarinNews.Models
             {
                 conn.Execute("Delete from Category");
             }
+        }
+
+        public static List<string> toList()
+        {
+            return new List<string> { Index, Title, Icon, Path };
         }
     }
 }

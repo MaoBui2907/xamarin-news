@@ -11,7 +11,6 @@ namespace XamarinNews.ViewModels
 {
     public class CategoryViewModel : BaseViewModel
     {
-        public int index { get; set; }
 
         public ObservableCollection<Category> Categories { get; set; }
         public CategoryViewModel()
@@ -33,6 +32,11 @@ namespace XamarinNews.ViewModels
         public void deleteCategory()
         {
             Category.DeleteCategory();
+        }
+
+        public List<string> toList()
+        {
+            return Category.toList() ;
         }
     }
 }
