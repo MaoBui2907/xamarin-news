@@ -9,5 +9,7 @@ namespace XamarinNews.Database
     {
         SQLiteAsyncConnection GetConnection();
 
+
+
     }
 }

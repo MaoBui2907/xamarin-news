@@ -18,16 +18,21 @@ namespace XamarinNews.ViewModels
         {
             Title = "Danh sách";
             Categories = new ObservableCollection<Category>();
+            Category.DeleteCategory();
+            Category.InitialDataBase();
         }
 
         public void getCategory()
         {
-            var categories = Category.GetCategories();
-            Categories.Clear();
-            foreach(var category in categories)
+            List<Category> categories = Category.GetCategories();
+            foreach(Category category in categories)
             {
                 Categories.Add(category);
             }
+        }
+        public void deleteCategory()
+        {
+            Category.DeleteCategory();
         }
     }
 }

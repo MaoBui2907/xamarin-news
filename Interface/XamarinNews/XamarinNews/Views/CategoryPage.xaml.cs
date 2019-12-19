@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
+using System.Collections.ObjectModel;
 using XamarinNews.Models;
 using XamarinNews.Views;
 using XamarinNews.ViewModels;
@@ -18,12 +18,23 @@ namespace XamarinNews.Views
     {
 
         CategoryViewModel viewModel;
+        ObservableCollection<Category> categories;
         public CategoryPage()
         {
             InitializeComponent();
 
             BindingContext = viewModel = new CategoryViewModel();
+            categories = new ObservableCollection<Category>();
+
+
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             
+            viewModel.getCategory();
+            categories = viewModel.Categories;
+            ListViewMenu.ItemsSource = categories;
         }
     }
 }

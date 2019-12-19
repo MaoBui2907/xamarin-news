@@ -9,10 +9,14 @@ namespace XamarinNews.Services
     {
         IRestService restService;
 
+
+
         public CategoryManager(IRestService service)
         {
             restService = service;
         }
+
+
 
         public Task<List<Category>> FetchCategoriesAsync()
         {
