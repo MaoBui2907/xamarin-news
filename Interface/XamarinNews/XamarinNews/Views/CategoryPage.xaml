@@ -5,11 +5,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="XamarinNews.Views.CategoryPage"
-             Title="Menu">
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout VerticalOptions="FillAndExpand">
             <ListView x:Name="ListViewMenu"
-                    HasUnevenRows="True">
+                    HasUnevenRows="True"
+                    ItemSelected="OnItemSelected">
                 <d:ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Item 1</x:String>

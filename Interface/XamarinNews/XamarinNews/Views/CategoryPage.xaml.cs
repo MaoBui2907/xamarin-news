@@ -25,16 +25,13 @@ namespace XamarinNews.Views
 
             BindingContext = viewModel = new CategoryViewModel();
             categories = new ObservableCollection<Category>();
-
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            
             categories = new ObservableCollection<Category>(viewModel.GetCategories());
             ListViewMenu.ItemsSource = categories;
-
             ListViewMenu.SelectedItem = categories[0];
         }
 
@@ -43,9 +40,7 @@ namespace XamarinNews.Views
             Category item = args.SelectedItem as Category;
             if (item == null)
                 return;
-
-            await Navigation.PushAsync(new PostListPage(item.toList()));
-
+            await RootPage.NavigateFromMenu(item.toList());
         }
     }
 }

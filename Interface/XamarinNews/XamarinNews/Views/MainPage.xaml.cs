@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
 using XamarinNews.Models;
+using XamarinNews.ViewModels;
 
 namespace XamarinNews.Views
 {
@@ -21,16 +23,19 @@ namespace XamarinNews.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            //MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
+            MenuPages.Add(0, new NavigationPage(new PostListPage(new PostListViewModel(new List<string> { "0", "Tin nóng", "ic1", "trend" }, 1))));
+
+            //var run = new Command (async () => await NavigateFromMenu(new List<string> { "0", "Tin nóng", "ic1", "trend" }));
         }
 
         public async Task NavigateFromMenu(List<string> p)
         {
             int id = int.Parse(p[0]);
+            if (!MenuPages.ContainsKey(id))
+            {
+                MenuPages.Add(id, new NavigationPage(new PostListPage(new PostListViewModel(p, 1))));
+            }
 
-            MenuPages.Add(id, new NavigationPage(new PostListPage(p)));
-
-            
             var newPage = MenuPages[id];
 
             if (newPage != null && Detail != newPage)

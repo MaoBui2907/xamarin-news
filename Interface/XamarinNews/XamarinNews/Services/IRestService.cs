@@ -9,6 +9,7 @@ namespace XamarinNews.Services
     {
         Task<List<Category>> FetchCategoriesAsync();
         Task<List<Post>> FetchPostsAsync(string path, int page);
+        Task<bool> CheckMorePostAsync(string path, int page);
         Task<Post> GetPostAsync(string ind);
 
     }

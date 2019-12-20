@@ -24,5 +24,10 @@ namespace XamarinNews.Services
         {
             return restService.GetPostAsync(ind);
         }
+
+        public Task<bool> CheckMorePost(string path, int page)
+        {
+            return restService.CheckMorePostAsync(path, page);
+        }
     }
 }

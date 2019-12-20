@@ -17,12 +17,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Item.cs" />
     <Compile Remove="Models\Models.cs" />
+    <Compile Remove="ViewModels\ItemDetailViewModel.cs" />
+    <Compile Remove="ViewModels\ItemsViewModel.cs" />
+    <Compile Remove="Views\ItemDetailPage.xaml.cs" />
+    <Compile Remove="Views\ItemsPage.xaml.cs" />
     <Compile Remove="Views\MenuPage.xaml.cs" />
+    <Compile Remove="Views\NewItemPage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Views\ItemsPage.xaml" />
     <EmbeddedResource Remove="Views\MenuPage.xaml" />
+    <EmbeddedResource Remove="Views\NewItemPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>

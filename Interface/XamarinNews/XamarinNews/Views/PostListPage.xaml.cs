@@ -17,15 +17,25 @@ namespace XamarinNews.Views
     public partial class PostListPage : ContentPage
     {
         PostListViewModel viewModel;
-        ObservableCollection<Post> posts;
-        public PostListPage(List<string> p)
+
+        public PostListPage()
         {
-            BindingContext = viewModel = new PostListViewModel(p[1]);
-
-
-
-            ItemsListView.ItemsSource = posts;
+            viewModel = new PostListViewModel(new List<string> { "0", "Tin nóng", "ic1", "/trend" }, 1);
+            BindingContext = viewModel;
         }
+        public PostListPage(PostListViewModel vm)
+        {
+            viewModel = vm;
+            BindingContext = viewModel;
+        }
+
+        /*protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (viewModel.posts.Count == 0)
+                viewModel.FetchPostListCommand.Execute(null);
+        }*/
 
         private void ItemsListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
