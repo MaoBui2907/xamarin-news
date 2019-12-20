@@ -44,7 +44,7 @@ def fetch_news(category_path, p_):
     return jsonify(data=posts)
 
 @app.route('/api/news/status/<string:category_path>/<int:p_>', methods=['GET'])
-def fetch_news(category_path, p_):
+def status_news(category_path, p_):
     _lim = 20
     _skip = _lim * (p_ - 1)
     post_collection = db["post"]
