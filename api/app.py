@@ -45,7 +45,7 @@ def fetch_news(category_path, p_):
         remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
-    return jsonify(data=posts)
+    return jsonify(posts)
 
 @app.route('/api/news/status/<string:category_path>/<int:p_>', methods=['GET'])
 def status_news(category_path, p_):
