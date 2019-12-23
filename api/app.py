@@ -41,7 +41,7 @@ def fetch_news(category_path, p_):
         posts = list()
         remain_len = 0
     else:
-        posts = list(post_collection.find({"category": category_path}).skip(_skip).limit(_lim))
+        posts = list(post_collection.find({"category": category_path}).skip(_skip).limit(_lim), {'_id': False})
         remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
@@ -56,7 +56,7 @@ def status_news(category_path, p_):
         posts = list()
         remain_len = 0
     else:
-        posts = list(post_collection.find({"category": category_path}).skip(_skip).limit(_lim))
+        posts = list(post_collection.find({"category": category_path}).skip(_skip).limit(_lim), {'_id': False})
         remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
