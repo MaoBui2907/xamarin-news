@@ -47,7 +47,9 @@ class FullLinks(CrawlSpider):
         client = MongoClient(host=db_config["db_host"], port=db_config["db_port"],
                      username=db_config["db_user"], password=db_config["db_pass"],
                      authSource=db_config["db_name"])
-        self.db = client[db_config["db_name"]]
+        db = client[db_config["db_name"]]
+        self.collection = db["post"]
+        self.init_len_c = self.collection.count()
         print("connected db")
         FullLinks.rules = [Rule(LinkExtractor(allow=run_config["allowed_regex"], deny_extensions=run_config["denied_extensions"]), callback="parse_item", follow=True)]
         super(FullLinks, self)._compile_rules()
@@ -64,14 +66,10 @@ class FullLinks(CrawlSpider):
         if "" in record.values() and self.rm_none:
             return
 
-        post_collection = self.db["post"]
-        len_c = post_collection.count()
-
-
-        _p = list(post_collection.find({"title": record["title"]}))
+        _p = list(self.collection.find({"title": record["title"]}))
         if len(_p) == 0:
-            record.update({"id": len_c + self.count})
-            post_collection.insert_one(record)
+            record.update({"id": self.init_len_c + self.count})
+            self.collection.insert_one(record)
             print("insert " + str(self.count))
 
         self.count  = self.count + 1
