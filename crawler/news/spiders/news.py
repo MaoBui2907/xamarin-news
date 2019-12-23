@@ -70,8 +70,8 @@ class FullLinks(CrawlSpider):
 
         _p = list(post_collection.find({"title": record["title"]}))
         if len(_p) == 0:
-            post_collection.insert_one(record)
             record.update({"id": len_c + self.count})
+            post_collection.insert_one(record)
             print("insert " + str(self.count))
 
         self.count  = self.count + 1
