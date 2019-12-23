@@ -8,32 +8,37 @@ using System.Diagnostics;
 using Xamarin.Forms;
 
 using XamarinNews.Models;
-using XamarinNews.Views;
 using XamarinNews.Services;
+
 namespace XamarinNews.ViewModels
 {
     public class PostListViewModel : BaseViewModel
     {
         public ObservableCollection<Post> posts { get; set; }
         public bool hasMore { get; set; }
-        public Command FetchPostListCommand { get; set; }
-        public Command CheckMorePostCommand { get; set; }
+        public Command<List<string>> FetchPostListCommand { get; set; }
+        public Command<List<string>> CheckMorePostCommand { get; set; }
         PostManager postManager { get; set; }
-
         public PostListViewModel(List<string> t, int page)
         {
-            Title = "Hell";
+            Title = t[1];
             postManager = new PostManager(new RestService());
-            FetchPostListCommand = new Command(async () => await FetchPostList(t[3], page));
-            CheckMorePostCommand = new Command(async () => await CheckMorePost(t[3], page));
+            posts = new ObservableCollection<Post>();
+            FetchPostListCommand = new Command<List<string>>(FetchPostList);
+            CheckMorePostCommand = new Command<List<string>>(CheckMorePost);
+            FetchPostListCommand.Execute(new List<string> { t[3], page.ToString() });
+            CheckMorePostCommand.Execute(new List<string> { t[3], page.ToString() });
         }
-        
-        async Task CheckMorePost(string path, int _p)
+
+        async void CheckMorePost(List<string> _c)
         {
             if (IsBusy)
                 return;
 
             IsBusy = true;
+
+            string path = _c[0];
+            int _p = int.Parse(_c[1]);
 
             try
             {
@@ -49,21 +54,21 @@ namespace XamarinNews.ViewModels
             }
         }
 
-        async Task FetchPostList(string path, int _p)
+        async void FetchPostList(List<string> _c)
         {
             if (IsBusy)
                 return;
 
             IsBusy = true;
+            string path = _c[0];
+            int _p = int.Parse(_c[1]);
 
             try
             {
                 posts.Clear();
-                var items = await postManager.FetchPostsAsync(path, _p);
-                foreach (var item in items)
-                {
-                    posts.Add(item);
-                }
+                List<Post> items = await postManager.FetchPostsAsync(path, _p);
+                posts = new ObservableCollection<Post>(items);
+                Console.WriteLine(posts.Count);
             }
             catch (Exception ex)
             {

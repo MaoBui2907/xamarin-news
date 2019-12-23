@@ -23,7 +23,7 @@ namespace XamarinNews.Views
 
             MasterBehavior = MasterBehavior.Popover;
 
-            MenuPages.Add(0, new NavigationPage(new PostListPage(new PostListViewModel(new List<string> { "0", "Tin nóng", "ic1", "trend" }, 1))));
+            //MenuPages.Add(0, new NavigationPage(new PostListPage(new PostListViewModel(new List<string> { "0", "Tin nóng", "ic1", "trend" }, 1))));
 
             //var run = new Command (async () => await NavigateFromMenu(new List<string> { "0", "Tin nóng", "ic1", "trend" }));
         }
@@ -33,7 +33,7 @@ namespace XamarinNews.Views
             int id = int.Parse(p[0]);
             if (!MenuPages.ContainsKey(id))
             {
-                MenuPages.Add(id, new NavigationPage(new PostListPage(new PostListViewModel(p, 1))));
+                MenuPages.Add(id, new NavigationPage(await new PostListPage(new PostListViewModel(p, 1))));
             }
 
             var newPage = MenuPages[id];

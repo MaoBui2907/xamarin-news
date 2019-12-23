@@ -33,8 +33,9 @@ namespace XamarinNews.Views
             categories = new ObservableCollection<Category>(viewModel.GetCategories());
             ListViewMenu.ItemsSource = categories;
             ListViewMenu.SelectedItem = categories[0];
-        }
 
+            
+        }
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
             Category item = args.SelectedItem as Category;
@@ -42,5 +43,6 @@ namespace XamarinNews.Views
                 return;
             await RootPage.NavigateFromMenu(item.toList());
         }
+
     }
 }
