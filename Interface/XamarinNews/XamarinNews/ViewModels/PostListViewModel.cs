@@ -14,35 +14,36 @@ namespace XamarinNews.ViewModels
 {
     public class PostListViewModel : BaseViewModel
     {
-        public ObservableCollection<Post> posts { get; set; }
+        public ObservableCollection<Post> Posts { get; set; }
+        public string _path { get; set; }
+        public int _page { get; set; }
         public bool hasMore { get; set; }
-        public Command<List<string>> FetchPostListCommand { get; set; }
-        public Command<List<string>> CheckMorePostCommand { get; set; }
+        public bool hasPrev { get; set; }
+        public Command FetchPostListCommand { get; set; }
+        public Command CheckMorePostCommand { get; set; }
         PostManager postManager { get; set; }
         public PostListViewModel(List<string> t, int page)
         {
             Title = t[1];
+            _path = t[3];
+            _page = page;
+            hasPrev = false;
             postManager = new PostManager(new RestService());
-            posts = new ObservableCollection<Post>();
-            FetchPostListCommand = new Command<List<string>>(FetchPostList);
-            CheckMorePostCommand = new Command<List<string>>(CheckMorePost);
-            FetchPostListCommand.Execute(new List<string> { t[3], page.ToString() });
-            CheckMorePostCommand.Execute(new List<string> { t[3], page.ToString() });
+            Posts = new ObservableCollection<Post>();
+            FetchPostListCommand = new Command(async () => await FetchPostList());
+            CheckMorePostCommand = new Command(async () => await CheckMorePost());
         }
 
-        async void CheckMorePost(List<string> _c)
+        public async Task CheckMorePost()
         {
             if (IsBusy)
                 return;
 
             IsBusy = true;
 
-            string path = _c[0];
-            int _p = int.Parse(_c[1]);
-
             try
             {
-                hasMore = await postManager.CheckMorePost(path, _p);
+                hasMore = await postManager.CheckMorePost(_path, _page);
             }
             catch (Exception ex)
             {
@@ -52,23 +53,21 @@ namespace XamarinNews.ViewModels
             {
                 IsBusy = false;
             }
+            Console.WriteLine("shit");
+            Console.WriteLine(hasMore);
         }
 
-        async void FetchPostList(List<string> _c)
+        public async Task FetchPostList()
         {
             if (IsBusy)
                 return;
 
             IsBusy = true;
-            string path = _c[0];
-            int _p = int.Parse(_c[1]);
 
             try
             {
-                posts.Clear();
-                List<Post> items = await postManager.FetchPostsAsync(path, _p);
-                posts = new ObservableCollection<Post>(items);
-                Console.WriteLine(posts.Count);
+                Posts.Clear();
+                Posts = new ObservableCollection<Post>(await postManager.FetchPostsAsync(_path, _page));
             }
             catch (Exception ex)
             {
@@ -78,6 +77,7 @@ namespace XamarinNews.ViewModels
             {
                 IsBusy = false;
             }
+            Console.WriteLine(Posts.Count);
         }
     }
 }

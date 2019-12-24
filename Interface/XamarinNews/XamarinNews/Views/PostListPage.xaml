@@ -10,34 +10,59 @@
              >
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="EmptyNoti" Text="Chưa có dữ liệu"></Label>
-            <ListView x:Name="PostListView"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" HorizontalOptions="CenterAndExpand" >
+                    <Label x:Name="EmptyData" 
+                           Text="Không có dữ liệu" 
+                           IsVisible="False" 
+                           VerticalOptions="CenterAndExpand" 
+                           HorizontalOptions="CenterAndExpand" />
+                    <ListView x:Name="PostListView"
                       VerticalOptions="FillAndExpand"
                       HasUnevenRows="True"
-                      IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                       CachingStrategy="RecycleElement"
                       ItemSelected="OnItemSelected"
                       >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding Title}" 
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Label Text="{Binding Title}" 
                                        d:Text="{Binding .}"
                                        LineBreakMode="NoWrap"
                                        Style="{DynamicResource ListItemStyle}"
                                        FontSize="17"/>
-                                <Label Text="{Binding Author}" 
+                                        <Label Text="{Binding Author}" 
                                        d:Text="{Binding .}"
                                        LineBreakMode="NoWrap"
                                        Style="{DynamicResource ListItemStyle}"
                                        FontSize="13"/>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout x:Name="Pagination" Grid.Row="1" HorizontalOptions="CenterAndExpand" IsVisible="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" x:Name="firstButton" Text="f" Clicked="firstPage"/>
+                        <Button Grid.Column="1" x:Name="prevButton" Text="p" Clicked="prevPage"/>
+                        <Button Grid.Column="2" x:Name="PageNumber" IsEnabled="False" Text="1"/>
+                        <Button Grid.Column="3" x:Name="nextButton" Text="n" Clicked="nextPage"/>
+                    </Grid>
+                </StackLayout>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

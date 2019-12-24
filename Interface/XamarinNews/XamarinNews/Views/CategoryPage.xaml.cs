@@ -34,7 +34,16 @@ namespace XamarinNews.Views
             ListViewMenu.ItemsSource = categories;
             ListViewMenu.SelectedItem = categories[0];
 
-            
+            ListViewMenu.ItemSelected += async (sender, e) =>
+            {
+                var item = e.SelectedItem as Category;
+                if (item == null)
+                {
+                    return;
+                }
+                var _i = item.toList();
+                await RootPage.NavigateFromMenu(_i);
+            };
         }
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {

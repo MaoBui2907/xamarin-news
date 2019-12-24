@@ -33,7 +33,8 @@ namespace XamarinNews.Views
             int id = int.Parse(p[0]);
             if (!MenuPages.ContainsKey(id))
             {
-                MenuPages.Add(id, new NavigationPage(await new PostListPage(new PostListViewModel(p, 1))));
+                PostListPage _p = new PostListPage(new PostListViewModel(p, 1));
+                MenuPages.Add(id, new NavigationPage(_p));
             }
 
             var newPage = MenuPages[id];

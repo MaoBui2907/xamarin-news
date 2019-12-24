@@ -4,12 +4,17 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             Title="{Binding Title}"
              x:Class="XamarinNews.Views.PostsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label x:Name="PostTitle" Text="{Binding t}" LineBreakMode="WordWrap" FontSize="Title" TextColor="DarkBlue"/>
+                <StackLayout Orientation="Horizontal" HeightRequest="300" >
+                    <Image x:Name="PostImage" Source="{Binding Image}" VerticalOptions="Center" Aspect="AspectFit"/>
+                </StackLayout>
+                <Label x:Name="PostContent" Text="{Binding Content}" LineBreakMode="WordWrap"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

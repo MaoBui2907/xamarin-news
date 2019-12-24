@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using XamarinNews.ViewModels;
+using XamarinNews.Models;
+
 namespace XamarinNews.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PostsPage : ContentPage
     {
-        public PostsPage()
+        PostViewModel viewModel;
+        public PostsPage(Post _p)
         {
             InitializeComponent();
+            BindingContext = viewModel = new PostViewModel(_p);
         }
     }
 }
