@@ -60,7 +60,8 @@ def status_news(category_path, p_):
         remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
-    return jsonify(data=(remain_len > 0))
+    _r = remain_len > 0
+    return jsonify(_r)
 
 
 # get news with id
