@@ -73,11 +73,10 @@ def status_news(category_path, p_):
 @app.route('/api/news/get/<string:id_>', methods=['GET'])
 def get_news(id_):
     post_collection = db["post"]
-    posts = list(post_collection.find({"id": id_}, {'_id': 0}))
-    print(posts)
-    if len(posts) == 0:
+    post = list(post_collection.find({"id": id_}, {'_id': 0}))
+    if len(post) == 0:
         abort(404)
-    return jsonify(data=posts)
+    return jsonify(post)
 
 # error handle
 @app.errorhandler(404)
