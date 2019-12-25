@@ -26,7 +26,7 @@ db = client[env["db_name"]]
 
 # Load model
 control = VNlp()
-control.from_bin('./VNlp/wiki.vi.model')
+control.from_bin('./VNlp/model/wiki.vi.model')
 utils = DataUtils()
 
 app = Flask(__name__)
@@ -109,8 +109,13 @@ def get_news(id_):
     if len(posts) == 0:
         abort(404)
     _content = posts[0]["content"]
-    _summar = sumarization(_content)
-    posts[0].update({"summar": ".".join(sumarization(_content))})
+    posts[0].update({"summar": _content})
+    try:
+        pass
+        _summar = sumarization(_content)
+        posts[0].update({"summar": ".".join(sumarization(_content))})
+    except expression as identifier:
+        pass
     return jsonify(posts[0])
 
 # error handle

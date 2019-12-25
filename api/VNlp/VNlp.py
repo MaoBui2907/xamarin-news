@@ -53,4 +53,4 @@ if __name__ == "__main__":
     vector_corpus = ("./corpus/wiki.vi.vec")
     nlp_model = VNlp()
     nlp_model.load_copus(vector_corpus)
-    nlp_model.to_bin("wiki.vi.model")
+    nlp_model.to_bin("./model/wiki.vi.model")
