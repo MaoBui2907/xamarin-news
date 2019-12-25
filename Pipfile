@@ -11,7 +11,12 @@ autopep8 = "*"
 flask = "*"
 pymongo = "*"
 wheel = "*"
-uwsgi = "*"
+plac = "*"
+numpy = "*"
+spacy = "*"
+nltk = "*"
+underthesea = "*"
+networkx = "*"
 
 [requires]
 python_version = "3.7"
