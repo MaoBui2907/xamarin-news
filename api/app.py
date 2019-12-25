@@ -70,7 +70,7 @@ def status_news(category_path, p_):
 
 
 # get news with id
-@app.route('/api/news/get/<string:id_>', methods=['GET'])
+@app.route('/api/news/get/<int:id_>', methods=['GET'])
 def get_news(id_):
     post_collection = db["post"]
     post = list(post_collection.find({"id": id_}, {'_id': 0}))
