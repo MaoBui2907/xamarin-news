@@ -76,7 +76,7 @@ def get_news(id_):
     post = list(post_collection.find({"id": id_}, {'_id': 0}))
     if len(post) == 0:
         abort(404)
-    return jsonify(post)
+    return jsonify(post[0])
 
 # error handle
 @app.errorhandler(404)
