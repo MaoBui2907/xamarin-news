@@ -15,12 +15,14 @@ namespace XamarinNews.ViewModels
     {
         public Post p { get; set; }
         public int id { get; set; }
+        public bool summar { get; set; }
         PostManager postManager { get; set; }
         public Command GetPostCommand { get; set; }
         public PostViewModel(PostMeta _p)
         {
-            Title = "Nội dung chi tiết";
+            Title = "Nội dung tóm tắt";
             p = new Post();
+            summar = true;
             id = _p.Id;
             postManager = new PostManager(new RestService());
             //GetPostCommand = new Command(async () => await GetPost());

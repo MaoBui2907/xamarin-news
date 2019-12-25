@@ -30,8 +30,6 @@ namespace XamarinNews.ViewModels
             hasPrev = false;
             postManager = new PostManager(new RestService());
             Posts = new ObservableCollection<PostMeta>();
-            //FetchPostListCommand = new Command(async () => await FetchPostList());
-            //CheckMorePostCommand = new Command(async () => await CheckMorePost());
         }
 
         public async Task CheckMorePost()

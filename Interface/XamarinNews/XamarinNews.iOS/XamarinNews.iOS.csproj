@@ -154,4 +154,22 @@
   <ItemGroup>
     <BundleResource Include="Resources\loading.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_18dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_18dp%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_18dp%403x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_24dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_24dp%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_compare_arrows_white_24dp%403x.png" />
+  </ItemGroup>
 </Project>

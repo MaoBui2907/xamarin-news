@@ -31,9 +31,23 @@ namespace XamarinNews.Views
         {
             PostTitle.Text = viewModel.p.Title;
             PostImage.Source = viewModel.p.Image;
-            PostContent.Text = viewModel.p.Content;
-            await Task.Delay(100);
-        }
+            if (viewModel.summar)
+            {
+                viewModel.Title = "Nội dung tóm tắt";
+                PostContent.Text = viewModel.p.Summar;
+            }
+            else
+            {
+                PostContent.Text = viewModel.p.Content;
+                viewModel.Title = "Nội dung đầy đủ";
+            }
 
+            PostAuthor.Text = viewModel.p.Author;
+        }
+        async void toggleContent_Clicked(object sender, EventArgs e)
+        {
+            viewModel.summar = !viewModel.summar;
+            await bindData();
+        }
     }
 }
