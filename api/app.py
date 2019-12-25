@@ -49,8 +49,9 @@ def fetch_news(category_path, p_):
     _skip = _lim * (p_ - 1)
     post_collection = db["post"]
     if category_path == "trend":
-        posts = list()
-        remain_len = 0
+        posts = list(post_collection.find({"trend": True}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
     else:
         posts = list(post_collection.find({"category": category_path}, {
                      '_id': False}).skip(_skip).limit(_lim))
