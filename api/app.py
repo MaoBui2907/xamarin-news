@@ -96,7 +96,7 @@ def sumarization(_content):
                 cosines[i][j] = control.cosine_distance(_sent_vec[i], _sent_vec[j])
     rank = TextRank()
     rank.run(cosines)
-    _out_len = math.floor(len(list(rank.sorted_scores.keys())) * 0.5)
+    _out_len = math.floor(len(list(rank.sorted_scores.keys())) * 0.33)
     _out_key = list(rank.sorted_scores.keys())[:_out_len]
     _out_key.sort()
     _out_list = [_sent_list[i] for i in _out_key]
