@@ -115,7 +115,7 @@ def get_news(id_):
         pass
         _summar = sumarization(_content)
         posts[0].update({"summar": ".".join(sumarization(_content))})
-    except expression as identifier:
+    except:
         pass
     return jsonify(posts[0])
 
