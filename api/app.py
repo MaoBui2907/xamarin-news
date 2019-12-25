@@ -41,11 +41,14 @@ def fetch_news(category_path, p_):
         posts = list()
         remain_len = 0
     else:
-        posts = list(post_collection.find({"category": category_path}, {'_id': False}).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
+        posts = list(post_collection.find({"category": category_path}, {
+                     '_id': False}).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find(
+            {"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
     return jsonify(posts)
+
 
 @app.route('/api/news/status/<string:category_path>/<int:p_>', methods=['GET'])
 def status_news(category_path, p_):
@@ -56,8 +59,10 @@ def status_news(category_path, p_):
         posts = list()
         remain_len = 0
     else:
-        posts = list(post_collection.find({"category": category_path}, {'_id': False}).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find({"category": category_path}))) - len(posts) - _skip
+        posts = list(post_collection.find({"category": category_path}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find(
+            {"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
     _r = remain_len > 0
@@ -68,8 +73,8 @@ def status_news(category_path, p_):
 @app.route('/api/news/get/<string:id_>', methods=['GET'])
 def get_news(id_):
     post_collection = db["post"]
-    posts = list(post_collection.find({"id": id_}))
-    print(post)
+    posts = list(post_collection.find({"id": id_}, {'_id': 0}))
+    print(posts)
     if len(posts) == 0:
         abort(404)
     return jsonify(data=posts)
@@ -81,4 +86,4 @@ def not_found(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0', port=1998)
+    app.run(debug=False, host='0.0.0.0', port=1998)
