@@ -50,7 +50,7 @@ class FullLinks(CrawlSpider):
         db = client[db_config["db_name"]]
         self.collection = db["post"]
         self.init_len_c = self.collection.count()
-        print("connected db")
+        self.collection.update_many({}, {"$set": {"trend": False}})
         FullLinks.rules = [Rule(LinkExtractor(allow=run_config["allowed_regex"], deny_extensions=run_config["denied_extensions"]), callback="parse_item", follow=True)]
         super(FullLinks, self)._compile_rules()
 
