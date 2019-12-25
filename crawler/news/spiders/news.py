@@ -11,7 +11,7 @@ from pymongo import MongoClient
 run_config = {
     "start_urls": ['https://vnexpress.net/24h-qua'],
     "allowed_domains": ['vnexpress.net'],
-    "allowed_regex": "^https://vnexpress.net/suc-khoe/|^https://vnexpress.net/giao-duc/|^https://vnexpress.net/thoi-su/|^https://vnexpress.net/khoa-hoc/",
+    "allowed_regex": "^https://vnexpress.net/van-hoa/|^https://vnexpress.net/suc-khoe/|^https://vnexpress.net/giao-duc/|^https://vnexpress.net/thoi-su/|^https://vnexpress.net/khoa-hoc/|^https://vnexpress.net/the-thao/",
     "denied_extensions": ['jpg', 'png', 'pdf', 'jpeg'],
     "rm_none": True,
     "xpath_config": {
