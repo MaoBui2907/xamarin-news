@@ -1,25 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 using XamarinNews.Models;
 using XamarinNews.Views;
+using XamarinNews.Services;
+using Xamarin.Forms;
+using System.Diagnostics;
 
 namespace XamarinNews.ViewModels
 {
     class PostViewModel : BaseViewModel
     {
-        public string t { get; set; }
-        public string Image { get; set; }
-        public string Desc { get; set; }
-        public string Content { get; set; }
-        public PostViewModel(Post _p)
+        public Post p { get; set; }
+        public int id { get; set; }
+        PostManager postManager { get; set; }
+        public Command GetPostCommand { get; set; }
+        public PostViewModel(PostMeta _p)
         {
             Title = "Nội dung chi tiết";
-            t = _p.Title;
-            Image = _p.Image;
-            Desc = _p.Description;
-            Content = _p.Content;
+            p = new Post();
+            id = _p.Id;
+            postManager = new PostManager(new RestService());
+            //GetPostCommand = new Command(async () => await GetPost());
+        }
+
+        public async Task GetPost()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                p = await postManager.GetPostAsync(id);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

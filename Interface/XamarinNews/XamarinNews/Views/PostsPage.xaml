@@ -8,12 +8,15 @@
              x:Class="XamarinNews.Views.PostsPage">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout>
-                <Label x:Name="PostTitle" Text="{Binding t}" LineBreakMode="WordWrap" FontSize="Title" TextColor="DarkBlue"/>
+            <StackLayout Margin="20">
+                <Label x:Name="PostTitle" LineBreakMode="WordWrap" FontSize="Title" TextColor="DarkBlue"/>
                 <StackLayout Orientation="Horizontal" HeightRequest="300" >
-                    <Image x:Name="PostImage" Source="{Binding Image}" VerticalOptions="Center" Aspect="AspectFit"/>
+                    <Grid>
+                        <Image Source="no_image.jpg" VerticalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                        <Image x:Name="PostImage" VerticalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                    </Grid>
                 </StackLayout>
-                <Label x:Name="PostContent" Text="{Binding Content}" LineBreakMode="WordWrap"/>
+                <Label x:Name="PostContent" LineBreakMode="WordWrap"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

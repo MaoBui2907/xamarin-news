@@ -38,9 +38,9 @@ namespace XamarinNews.Services
             return categories;
         }
 
-        public async Task<List<Post>> FetchPostsAsync(string path, int page)
+        public async Task<List<PostMeta>> FetchPostsAsync(string path, int page)
         {
-            List<Post> posts = new List<Post>();
+            List<PostMeta> posts = new List<PostMeta>();
             var uri = new Uri(string.Format(Constants.PostUrl, "fetch", path, page));
             try
             {
@@ -48,7 +48,7 @@ namespace XamarinNews.Services
                 if (respone.IsSuccessStatusCode)
                 {
                     var content = await respone.Content.ReadAsStringAsync();
-                    posts = JsonConvert.DeserializeObject<List<Post>>(content);
+                    posts = JsonConvert.DeserializeObject<List<PostMeta>>(content);
                 }
             } 
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace XamarinNews.Services
             return status;
         }
 
-        public async Task<Post> GetPostAsync(string ind)
+        public async Task<Post> GetPostAsync(int ind)
         {
             Post post = new Post();
             var uri = new Uri(string.Format(Constants.GetPostUrl, ind));

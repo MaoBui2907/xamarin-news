@@ -34,7 +34,7 @@ namespace XamarinNews.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var post = args.SelectedItem as Post;
+            var post = args.SelectedItem as PostMeta;
             if (post == null)
                 return;
             await Navigation.PushAsync(new PostsPage(post));

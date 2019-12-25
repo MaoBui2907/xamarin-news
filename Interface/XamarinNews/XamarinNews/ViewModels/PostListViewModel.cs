@@ -14,7 +14,7 @@ namespace XamarinNews.ViewModels
 {
     public class PostListViewModel : BaseViewModel
     {
-        public ObservableCollection<Post> Posts { get; set; }
+        public ObservableCollection<PostMeta> Posts { get; set; }
         public string _path { get; set; }
         public int _page { get; set; }
         public bool hasMore { get; set; }
@@ -29,9 +29,9 @@ namespace XamarinNews.ViewModels
             _page = page;
             hasPrev = false;
             postManager = new PostManager(new RestService());
-            Posts = new ObservableCollection<Post>();
-            FetchPostListCommand = new Command(async () => await FetchPostList());
-            CheckMorePostCommand = new Command(async () => await CheckMorePost());
+            Posts = new ObservableCollection<PostMeta>();
+            //FetchPostListCommand = new Command(async () => await FetchPostList());
+            //CheckMorePostCommand = new Command(async () => await CheckMorePost());
         }
 
         public async Task CheckMorePost()
@@ -67,7 +67,7 @@ namespace XamarinNews.ViewModels
             try
             {
                 Posts.Clear();
-                Posts = new ObservableCollection<Post>(await postManager.FetchPostsAsync(_path, _page));
+                Posts = new ObservableCollection<PostMeta>(await postManager.FetchPostsAsync(_path, _page));
             }
             catch (Exception ex)
             {

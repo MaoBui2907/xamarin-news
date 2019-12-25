@@ -25,10 +25,12 @@ namespace XamarinNews.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            global::Xamarin.Forms.FormsMaterial.Init();  
 
             string fileName = "database.db3";
             string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "..", "Library");
             string databasePath = Path.Combine(folderPath, fileName);
+
 
             LoadApplication(new App(databasePath));
 

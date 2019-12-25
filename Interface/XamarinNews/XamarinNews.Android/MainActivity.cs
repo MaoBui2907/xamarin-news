@@ -22,6 +22,7 @@ namespace XamarinNews.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
 
             string fileName = "database.db3";
             string folderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);

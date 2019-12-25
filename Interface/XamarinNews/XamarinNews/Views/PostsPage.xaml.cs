@@ -16,10 +16,24 @@ namespace XamarinNews.Views
     public partial class PostsPage : ContentPage
     {
         PostViewModel viewModel;
-        public PostsPage(Post _p)
+        public PostsPage(PostMeta _p)
         {
             InitializeComponent();
             BindingContext = viewModel = new PostViewModel(_p);
         }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await viewModel.GetPost();
+            await bindData();
+        }
+        async Task bindData()
+        {
+            PostTitle.Text = viewModel.p.Title;
+            PostImage.Source = viewModel.p.Image;
+            PostContent.Text = viewModel.p.Content;
+            await Task.Delay(100);
+        }
+
     }
 }

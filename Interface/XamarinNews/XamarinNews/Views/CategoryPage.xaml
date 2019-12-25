@@ -6,27 +6,40 @@
              mc:Ignorable="d"
              x:Class="XamarinNews.Views.CategoryPage"
              Title="{Binding Title}">
-    <ContentPage.Content>
-        <StackLayout VerticalOptions="FillAndExpand">
-            <ListView x:Name="ListViewMenu"
+    <ContentPage.Content Visual="Material">
+        <Grid Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.15*"/>
+            </Grid.RowDefinitions>
+            <StackLayout VerticalOptions="CenterAndExpand" Grid.Row="0">
+                <Label Text="TinTuc24h" FontSize="23" TextColor="DarkGray" VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1">
+                <ListView x:Name="ListViewMenu"
                     HasUnevenRows="True"
                     ItemSelected="OnItemSelected">
-                <d:ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Item 1</x:String>
-                        <x:String>Item 2</x:String>
-                    </x:Array>
-                </d:ListView.ItemsSource>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid Padding="10">
-                                <Label Text="{Binding Title}" FontSize="20"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+                    <d:ListView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Item 1</x:String>
+                            <x:String>Item 2</x:String>
+                        </x:Array>
+                    </d:ListView.ItemsSource>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="10">
+                                    <Label Text="{Binding Title}" FontSize="20"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand" Grid.Row="2">
+                <Label Text="2019 @copyright Mao.Tai.Phu" FontSize="16" TextColor="DarkBlue" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>
