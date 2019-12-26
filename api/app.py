@@ -55,7 +55,7 @@ def fetch_news(category_path, p_):
         remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
     else:
         posts = list(post_collection.find({"category": category_path}, {
-                     '_id': False}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
         remain_len = len(list(post_collection.find(
             {"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
@@ -112,6 +112,7 @@ def get_news(id_, rate_):
     if len(posts) == 0:
         abort(404)
     _content = posts[0]["content"]
+    posts[0].update({"image": posts[0]["image"][0]})
     posts[0].update({"summar": _content})
     try:
         _summar = sumarization(_content, rate_)
