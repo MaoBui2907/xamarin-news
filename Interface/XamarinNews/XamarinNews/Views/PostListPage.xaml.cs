@@ -109,5 +109,12 @@ namespace XamarinNews.Views
                 nextButton.IsEnabled = false;
             PageNumber.Text = viewModel._page.ToString();
         }
+
+        private async void RefreshList_Clicked(object sender, EventArgs e)
+        {
+            await viewModel.FetchPostList();
+            await viewModel.CheckMorePost();
+            bindData();
+        }
     }
 }

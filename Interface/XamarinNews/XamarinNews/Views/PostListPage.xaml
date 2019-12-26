@@ -8,6 +8,9 @@
              Title="{Binding Title}"
              x:Name="BrowsePostListPage"
              >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="RefreshList" IconImageSource="ic_refresh_white_24dp.png" Clicked="RefreshList_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -61,10 +64,10 @@
                             <ColumnDefinition Width="0.25*"/>
                             <ColumnDefinition Width="0.25*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" x:Name="firstButton" Text="f" Clicked="firstPage"/>
-                        <Button Grid.Column="1" x:Name="prevButton" Text="p" Clicked="prevPage"/>
+                        <Button Grid.Column="0" x:Name="firstButton" Text="&lt;&lt;" Clicked="firstPage"/>
+                        <Button Grid.Column="1" x:Name="prevButton" Text="&lt;" Clicked="prevPage"/>
                         <Button Grid.Column="2" x:Name="PageNumber" IsEnabled="False" Text="1"/>
-                        <Button Grid.Column="3" x:Name="nextButton" Text="n" Clicked="nextPage"/>
+                        <Button Grid.Column="3" x:Name="nextButton" Text="&gt;" Clicked="nextPage"/>
                     </Grid>
                 </StackLayout>
             </Grid>

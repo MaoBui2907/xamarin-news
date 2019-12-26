@@ -26,7 +26,7 @@ namespace XamarinNews.ViewModels
         {
             bool _s = false;
             //List<Category> Initialdata = new List<Category> { new Category { Title = "Trend", Icon = "D", Path = "/Trend" }, new Category { Title = "Văn Hóa", Icon = "DD", Path = "/van-hoa" } };
-            string[][] initialdata = new string[][] {new string[] {"0", "Tin nóng", "EX1", "trend"}, new string[] { "1", "Văn Hóa", "EX1", "van-hoa"},
+            string[][] initialdata = new string[][] {new string[] {"0", "Tin nóng", "EX1", "trend"}, new string[] { "1", "Đời sống", "EX1", "doi-song"},
             new string[] {"2", "Sức khỏe", "EX1", "suc-khoe"}, new string[] {"3", "Giáo dục", "EX1", "giao-duc"}, new string[] {"4", "Thể thao", "EX1", "the-thao"},
             new string[] {"5", "Thời sự", "EX1", "thoi-su"}, new string[] {"6", "Khoa học", "EX1", "khoa-hoc"}};
 

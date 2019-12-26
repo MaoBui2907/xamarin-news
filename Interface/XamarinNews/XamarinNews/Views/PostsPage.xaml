@@ -7,6 +7,7 @@
              Title="{Binding Title}"
              x:Class="XamarinNews.Views.PostsPage">
     <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="shareButton" IconImageSource="ic_share_white_24dp.png" Clicked="shareButton_Clicked"/>
         <ToolbarItem x:Name="toggleContent" IconImageSource="ic_compare_arrows_white_24dp.png"  Clicked="toggleContent_Clicked"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>

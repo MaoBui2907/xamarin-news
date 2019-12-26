@@ -25,9 +25,9 @@ namespace XamarinNews.Views
         {
             base.OnAppearing();
             await viewModel.GetPost();
-            await bindData();
+            bindData();
         }
-        async Task bindData()
+        void bindData()
         {
             PostTitle.Text = viewModel.p.Title;
             PostImage.Source = viewModel.p.Image;
@@ -44,10 +44,15 @@ namespace XamarinNews.Views
 
             PostAuthor.Text = viewModel.p.Author;
         }
-        async void toggleContent_Clicked(object sender, EventArgs e)
+        void toggleContent_Clicked(object sender, EventArgs e)
         {
             viewModel.summar = !viewModel.summar;
-            await bindData();
+            bindData();
+        }
+
+        private void shareButton_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

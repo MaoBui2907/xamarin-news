@@ -14,7 +14,7 @@
                 <RowDefinition Height="0.15*"/>
             </Grid.RowDefinitions>
             <StackLayout VerticalOptions="CenterAndExpand" Grid.Row="0">
-                <Label Text="TinTuc24h" FontSize="23" TextColor="DarkGray" VerticalOptions="CenterAndExpand"/>
+                <Label Text="TinNhanh24h" Padding="20,0,0,0" FontSize="25" TextColor="BlueViolet" VerticalOptions="CenterAndExpand"/>
             </StackLayout>
             <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1">
                 <ListView x:Name="ListViewMenu"
