@@ -25,6 +25,7 @@ namespace XamarinNews.Views
 
             BindingContext = viewModel = new CategoryViewModel();
             categories = new ObservableCollection<Category>();
+            LoadImageSwitch.IsToggled = App.LoadImage;
         }
 
         protected override void OnAppearing()
@@ -53,5 +54,9 @@ namespace XamarinNews.Views
             await RootPage.NavigateFromMenu(item.toList());
         }
 
+        private void LoadImageSwitch_Toggled(object sender, ToggledEventArgs e)
+        {
+            App.LoadImage = !App.LoadImage;
+        }
     }
 }

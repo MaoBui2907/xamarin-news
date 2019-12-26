@@ -30,7 +30,10 @@ namespace XamarinNews.Views
         void bindData()
         {
             PostTitle.Text = viewModel.p.Title;
-            PostImage.Source = viewModel.p.Image;
+            if (App.LoadImage)
+            {
+                PostImage.Source = viewModel.p.Image;
+            }
             if (viewModel.summar)
             {
                 viewModel.Title = "Nội dung tóm tắt";

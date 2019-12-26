@@ -10,6 +10,7 @@ namespace XamarinNews
     {
         public static string DatabasePath;
 
+        public static bool LoadImage { get; set; }
         public App(string databasePath)
         {
             InitializeComponent();
