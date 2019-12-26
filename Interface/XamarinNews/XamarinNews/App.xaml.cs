@@ -11,12 +11,13 @@ namespace XamarinNews
         public static string DatabasePath;
 
         public static bool LoadImage { get; set; }
+        public static int SummaRate { get; set; }
         public App(string databasePath)
         {
             InitializeComponent();
-
             DatabasePath = databasePath;
-
+            LoadImage = false;
+            SummaRate = 60;
             MainPage = new MainPage();
         }
 

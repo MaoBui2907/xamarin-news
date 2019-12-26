@@ -8429,13 +8429,16 @@ namespace XamarinNews.Droid
 			public const int no_image = 2131165300;
 			
 			// aapt resource value: 0x7F070081
-			public const int tooltip_frame_dark = 2131165313;
+			public const int tin_nhanh_200x200 = 2131165313;
 			
 			// aapt resource value: 0x7F070082
-			public const int tooltip_frame_light = 2131165314;
+			public const int tooltip_frame_dark = 2131165314;
 			
 			// aapt resource value: 0x7F070083
-			public const int xamarin_logo = 2131165315;
+			public const int tooltip_frame_light = 2131165315;
+			
+			// aapt resource value: 0x7F070084
+			public const int xamarin_logo = 2131165316;
 			
 			static Drawable()
 			{

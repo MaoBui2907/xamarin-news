@@ -30,7 +30,7 @@
                       IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                       CachingStrategy="RecycleElement"
                       ItemSelected="OnItemSelected"
-                      Margin="10,0,10,0"
+                      Margin="10,0,0,0"
                       >
                         <ListView.ItemTemplate>
                             <DataTemplate>

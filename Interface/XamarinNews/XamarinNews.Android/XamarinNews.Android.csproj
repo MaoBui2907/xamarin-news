@@ -288,5 +288,8 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-v21\ic_share_white_24dp.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\tin_nhanh_200x200.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

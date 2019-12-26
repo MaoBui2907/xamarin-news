@@ -26,6 +26,7 @@ namespace XamarinNews.Views
             BindingContext = viewModel = new CategoryViewModel();
             categories = new ObservableCollection<Category>();
             LoadImageSwitch.IsToggled = App.LoadImage;
+            SummaRateValue.Text = App.SummaRate.ToString() + "%";
         }
 
         protected override void OnAppearing()
@@ -34,7 +35,14 @@ namespace XamarinNews.Views
             categories = new ObservableCollection<Category>(viewModel.GetCategories());
             ListViewMenu.ItemsSource = categories;
             ListViewMenu.SelectedItem = categories[0];
-
+            if(App.SummaRate == 10)
+            {
+                SummaDecr.IsEnabled = false;
+            }
+            if(App.SummaRate == 90)
+            {
+                SummaIncr.IsEnabled = false;
+            }
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 var item = e.SelectedItem as Category;
@@ -57,6 +65,50 @@ namespace XamarinNews.Views
         private void LoadImageSwitch_Toggled(object sender, ToggledEventArgs e)
         {
             App.LoadImage = !App.LoadImage;
+        }
+
+        private void SummaIncr_Clicked(object sender, EventArgs e)
+        {
+            App.SummaRate = App.SummaRate + 10;
+            SummaRateValue.Text = App.SummaRate.ToString() + "%";
+            if (App.SummaRate == 10)
+            {
+                SummaDecr.IsEnabled = false;
+            }
+            else
+            {
+                SummaDecr.IsEnabled = true;
+            }
+            if (App.SummaRate == 90)
+            {
+                SummaIncr.IsEnabled = false;
+            }
+            else
+            {
+                SummaIncr.IsEnabled = true;
+            }
+        }
+
+        private void SummaDecr_Clicked(object sender, EventArgs e)
+        {
+            App.SummaRate = App.SummaRate - 10;
+            SummaRateValue.Text = App.SummaRate.ToString() + "%";
+            if (App.SummaRate == 10)
+            {
+                SummaDecr.IsEnabled = false;
+            }
+            else
+            {
+                SummaDecr.IsEnabled = true;
+            }
+            if (App.SummaRate == 90)
+            {
+                SummaIncr.IsEnabled = false;
+            }
+            else
+            {
+                SummaIncr.IsEnabled = true;
+            }
         }
     }
 }

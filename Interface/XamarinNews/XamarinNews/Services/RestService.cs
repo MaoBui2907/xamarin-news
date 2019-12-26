@@ -78,10 +78,10 @@ namespace XamarinNews.Services
             return status;
         }
 
-        public async Task<Post> GetPostAsync(int ind)
+        public async Task<Post> GetPostAsync(int ind, int rate)
         {
             Post post = new Post();
-            var uri = new Uri(string.Format(Constants.GetPostUrl, ind));
+            var uri = new Uri(string.Format(Constants.GetPostUrl, ind, rate));
             try
             {
                 var respone = await _client.GetAsync(uri);

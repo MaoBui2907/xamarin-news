@@ -37,7 +37,7 @@ namespace XamarinNews.ViewModels
 
             try
             {
-                p = await postManager.GetPostAsync(id);
+                p = await postManager.GetPostAsync(id, App.SummaRate);
             }
             catch (Exception ex)
             {

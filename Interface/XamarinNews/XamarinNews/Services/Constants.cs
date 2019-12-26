@@ -8,6 +8,6 @@ namespace XamarinNews.Services
         public static string BaseAddress = Device.RuntimePlatform == Device.Android ? "http://40.119.210.85:1998/" : "http://40.119.210.85:1998/";
         public static string CategoryUrl = BaseAddress + "api/category";
         public static string PostUrl = BaseAddress + "api/news/{0}/{1}/{2}";
-        public static string GetPostUrl = BaseAddress + "api/news/get/{0}";
+        public static string GetPostUrl = BaseAddress + "api/news/get/{0}/{1}";
     }
 }

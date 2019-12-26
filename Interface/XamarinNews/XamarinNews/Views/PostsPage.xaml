@@ -13,7 +13,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="20,10,20,20">
-                <Label x:Name="PostTitle" FontSize="21" TextColor="DarkBlue"/>
+                <Label x:Name="PostTitle" FontSize="20" TextColor="DarkBlue"/>
                 <StackLayout Orientation="Horizontal" HeightRequest="300" >
                     <Grid>
                         <Image Source="no_image.jpg" VerticalOptions="CenterAndExpand" Aspect="AspectFit"/>
