@@ -26,7 +26,7 @@ run_config = {
         "description": "/html/head/meta[@name=\"description\"]/@content",
         "content": "//article[contains(@class, \"content_detail\")]/p[position()!=last()]//text()",
         "author": "//article[contains(@class, \"content_detail\")]/p[last()]/strong//text()",
-        "image": "//article[contains(@class, \"content_detail\")]//img[1]/@src"
+        "image": "//article[contains(@class, \"content_detail\")]//img/@src"
     }
 }
 
@@ -71,7 +71,10 @@ class FullLinks(CrawlSpider):
             "trend": True
         }
         for k, v in self.xpath_config.items():
-            record.update({k: "".join(response.xpath(v).extract()).strip()})
+            if k == "image":
+                record.update({k: response.xpath(v).extract()})
+            else:
+                record.update({k: "".join(response.xpath(v).extract()).strip()})
 
         if "" in record.values() and self.rm_none:
             return
@@ -81,7 +84,6 @@ class FullLinks(CrawlSpider):
             record.update({"id": self.init_len_c + self.count})
             self.collection.insert_one(record)
             print("insert " + str(self.count))
-
-        self.count = self.count + 1
+            self.count = self.count + 1
         if self.count > self.max_count:
             raise CloseSpider("reach result's max count")
