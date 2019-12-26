@@ -76,7 +76,7 @@ class FullLinks(CrawlSpider):
             else:
                 record.update({k: "".join(response.xpath(v).extract()).strip()})
 
-        if "" in record.values() and self.rm_none:
+        if ("" in record.values() or [] in record.values()) and self.rm_none:
             return
 
         _p = list(self.collection.find({"title": record["title"]}))
