@@ -82,7 +82,7 @@ def status_news(category_path, p_):
     _r = remain_len > 0
     return jsonify(_r)
 
-def sumarization(_content):
+def sumarization(_content, _rate):
     _data = utils.nomalize_document(_content)
     _sent_list = utils.split_sentences(_data)
 
@@ -97,15 +97,15 @@ def sumarization(_content):
                 cosines[i][j] = control.cosine_distance(_sent_vec[i], _sent_vec[j])
     rank = TextRank()
     rank.run(cosines)
-    _out_len = math.floor(len(list(rank.sorted_scores.keys())) * 0.33)
+    _out_len = math.floor(len(list(rank.sorted_scores.keys())) * (100 - _rate) / 100)
     _out_key = list(rank.sorted_scores.keys())[:_out_len]
     _out_key.sort()
     _out_list = [_sent_list[i] for i in _out_key]
     return _out_list
 
 # get news with id
-@app.route('/api/news/get/<int:id_>', methods=['GET'])
-def get_news(id_):
+@app.route('/api/news/get/<int:id_>/<int:rate_>', methods=['GET'])
+def get_news(id_, rate_):
     post_collection = db["post"]
     posts = list(post_collection.find({"id": id_}, {'_id': 0}))
     if len(posts) == 0:
@@ -114,7 +114,7 @@ def get_news(id_):
     posts[0].update({"summar": _content})
     try:
         pass
-        _summar = sumarization(_content)
+        _summar = sumarization(_content, rate_)
         posts[0].update({"summar": ".\n".join(sumarization(_content))})
     except:
         pass
