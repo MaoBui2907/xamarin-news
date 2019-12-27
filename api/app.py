@@ -3,8 +3,15 @@ from flask import jsonify
 from flask import abort
 from flask import make_response
 
+from VNlp.VNlp import VNlp
+from data_utils.data_utils import DataUtils
+import numpy as np
+from textrank.textrank import TextRank
+import math
+
 import json
 
+import pymongo
 from pymongo import MongoClient
 from mongo_json import MongoJSONEncoder
 
@@ -17,6 +24,11 @@ client = MongoClient(host=env["db_host"], port=env["db_port"],
                      username=env["db_user"], password=env["db_pass"],
                      authSource=env["db_name"])
 db = client[env["db_name"]]
+
+# Load model
+control = VNlp()
+control.from_bin('./VNlp/model/wiki.vi.model')
+utils = DataUtils()
 
 app = Flask(__name__)
 app.json_encoder = MongoJSONEncoder
@@ -32,29 +44,91 @@ def fetch_category():
     return jsonify(data=categories)
 
 # fetch news in category
-@app.route('/api/news/fetch/<string:category_path>', methods=['GET'])
-def fetch_news(category_path):
+@app.route('/api/news/fetch/<string:category_path>/<int:p_>', methods=['GET'])
+def fetch_news(category_path, p_):
+    _lim = 20
+    _skip = _lim * (p_ - 1)
     post_collection = db["post"]
-    posts = list(post_collection.find({"category": category_path}))
+    if category_path == "trend":
+        posts = list(post_collection.find({"trend": True}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
+    else:
+        posts = list(post_collection.find({"category": category_path}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find(
+            {"category": category_path}))) - len(posts) - _skip
     if len(posts) == 0:
         abort(404)
-    return jsonify(data=posts)
+    return jsonify(posts)
+
+
+@app.route('/api/news/status/<string:category_path>/<int:p_>', methods=['GET'])
+def status_news(category_path, p_):
+    _lim = 20
+    _skip = _lim * (p_ - 1)
+    post_collection = db["post"]
+    if category_path == "trend":
+        posts = list(post_collection.find({"trend": True}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
+    else:
+        posts = list(post_collection.find({"category": category_path}, {
+                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
+        remain_len = len(list(post_collection.find(
+            {"category": category_path}))) - len(posts) - _skip
+    if len(posts) == 0:
+        abort(404)
+    _r = remain_len > 0
+    return jsonify(_r)
+
+def sumarization(_content, _rate):
+    _data = utils.nomalize_document(_content)
+    _sent_list = utils.split_sentences(_data)
+
+    _sent_vec = []
+    for i, sent in enumerate(_sent_list):
+        _sent_vec.append(control.to_vector(sent.lower()))
+    _sent_size = len(_sent_vec)
+    cosines = np.zeros((_sent_size, _sent_size), dtype=float) 
+    for i in range(_sent_size):
+        for j in range(_sent_size):
+            if i != j:
+                cosines[i][j] = control.cosine_distance(_sent_vec[i], _sent_vec[j])
+    rank = TextRank()
+    rank.run(cosines)
+    _rate = (100 - _rate)/100
+    _out_len = math.floor(len(list(rank.sorted_scores.keys())) * _rate)
+    _out_key = list(rank.sorted_scores.keys())[:_out_len]
+    _out_key.sort()
+    _out_list = [_sent_list[i] for i in _out_key]
+    return _out_list
 
 # get news with id
-@app.route('/api/news/get/<string:id_>', methods=['GET'])
-def get_news(id_):
+@app.route('/api/news/get/<int:id_>/<int:rate_>', methods=['GET'])
+def get_news(id_, rate_):
     post_collection = db["post"]
-    posts = list(post_collection.find({"id": id_}))
-    print(post)
+    posts = list(post_collection.find({"id": id_}, {'_id': 0}))
     if len(posts) == 0:
         abort(404)
-    return jsonify(data=posts)
+    _content = posts[0]["content"]
+    posts[0].update({"image": posts[0]["image"][0]})
+    posts[0].update({"summar": _content})
+    try:
+        _summar = sumarization(_content, rate_)
+        posts[0].update({"summar": ".\n".join(_summar)})
+        pass
+    except:
+        pass
+    return jsonify(posts[0])
 
 # error handle
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify(error="Not found"), 404)
-
+@app.errorhandler(500)
+def server_error(error):
+    return make_response(jsonify(error="Internal Server Error"), 500)
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0', port=1998)
+    app.run(debug=False, host='0.0.0.0', port=1998)
