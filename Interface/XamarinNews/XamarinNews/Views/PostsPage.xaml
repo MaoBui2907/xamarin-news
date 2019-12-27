@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="{Binding Title}"
+             x:Class="XamarinNews.Views.PostsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="shareButton" IconImageSource="ic_share_white_24dp.png" Clicked="shareButton_Clicked"/>
+        <ToolbarItem x:Name="toggleContent" IconImageSource="ic_compare_arrows_white_24dp.png"  Clicked="toggleContent_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20,10,20,20">
+                <Label x:Name="PostTitle" FontSize="20" TextColor="DarkBlue"/>
+                <StackLayout Orientation="Horizontal" HeightRequest="300" >
+                    <Grid>
+                        <Image Source="no_image.jpg" VerticalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                        <Image x:Name="PostImage" VerticalOptions="CenterAndExpand" Aspect="AspectFit"/>
+                    </Grid>
+                </StackLayout>
+                <Label x:Name="PostContent" LineBreakMode="WordWrap" FontSize="17"/>
+                <Label x:Name="PostAuthor" HorizontalOptions="End" FontSize="Subtitle" TextColor="DimGray"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
