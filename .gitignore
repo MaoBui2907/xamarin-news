@@ -348,6 +348,11 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-
+# Python
 **/.venv
+**/crawl.sh
+**/corpus
+**/model
+# vscode
 **/.vscode
+
