@@ -1,0 +1,22 @@
+[
+  { "key": 0, "category": "Bất động sản", "count": 11 },
+  { "key": 1, "category": "Du lịch", "count": 787 },
+  { "key": 2, "category": "Dịch viêm phổi virus corona", "count": 68 },
+  { "key": 3, "category": "Giáo dục", "count": 103 },
+  { "key": 4, "category": "Giải trí", "count": 791 },
+  { "key": 5, "category": "Khoa học", "count": 16 },
+  { "key": 6, "category": "Kinh doanh", "count": 26 },
+  { "key": 7, "category": "Pháp luật", "count": 30 },
+  { "key": 8, "category": "SEA Games 2019", "count": 4 },
+  { "key": 9, "category": "Số hóa", "count": 70 },
+  { "key": 10, "category": "Sức khỏe", "count": 168 },
+  { "key": 11, "category": "Thư giãn", "count": 2048 },
+  { "key": 12, "category": "Thế giới", "count": 1036 },
+  { "key": 13, "category": "Thể thao", "count": 6023 },
+  { "key": 14, "category": "Thời sự", "count": 188 },
+  { "key": 15, "category": "Tuyến đầu chống dịch", "count": 1 },
+  { "key": 16, "category": "World Cup 2022", "count": 2 },
+  { "key": 17, "category": "Xe", "count": 60 },
+  { "key": 18, "category": "Ý kiến", "count": 434 },
+  { "key": 19, "category": "Đời sống", "count": 38 }
+]

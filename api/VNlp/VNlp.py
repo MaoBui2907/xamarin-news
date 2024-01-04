@@ -1,4 +1,3 @@
-import plac
 import numpy as np
 from numpy.linalg import norm
 import pickle
@@ -38,7 +37,7 @@ class VNlp:
         self.nlp.to_disk(path)
 
     def to_bin(self, path):
-        with open(path, 'wb') as f:
+        with open(path, 'wb+') as f:
             pickle.dump(self.nlp.to_bytes(), f)
 
     def from_disk(self, path):

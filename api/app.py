@@ -1,29 +1,31 @@
-from flask import Flask
+from flask import Flask, request
 from flask import jsonify
 from flask import abort
 from flask import make_response
 
-from VNlp.VNlp import VNlp
-from data_utils.data_utils import DataUtils
-import numpy as np
-from textrank.textrank import TextRank
+import os
 import math
-
-import json
-
+import numpy as np
 import pymongo
 from pymongo import MongoClient
-from mongo_json import MongoJSONEncoder
+from VNlp.VNlp import VNlp
+from data_utils.data_utils import DataUtils
+from textrank.textrank import TextRank
 
-# read env
-with open('./env.json') as f:
-    env = json.load(f)
+
+db_host = os.environ.get('MONGO_HOST', 'localhost')
+db_port = os.environ.get('MONGO_PORT', '27017')
+db_user = os.environ.get('MONGO_USER', 'root')
+db_pass = os.environ.get('MONGO_PASS', 'root')
+db_name = os.environ.get('MONGO_NAME', 'news')
 
 # connect database
-client = MongoClient(host=env["db_host"], port=env["db_port"],
-                     username=env["db_user"], password=env["db_pass"],
-                     authSource=env["db_name"])
-db = client[env["db_name"]]
+client = MongoClient(host=db_host, port=int(db_port),
+                     username=db_user, password=db_pass)
+db = client.get_database(db_name)
+post_collection = db.get_collection("post")
+if "title_text" not in post_collection.index_information():
+    post_collection.create_index([("title", pymongo.TEXT)], name="title_text")
 
 # Load model
 control = VNlp()
@@ -31,56 +33,32 @@ control.from_bin('./VNlp/model/wiki.vi.model')
 utils = DataUtils()
 
 app = Flask(__name__)
-app.json_encoder = MongoJSONEncoder
 @app.route('/')
 def index():
     return "Hello, World!"
 
 # fetch category
-@app.route('/api/category/fetch', methods=['GET'])
+@app.get('/api/category')
 def fetch_category():
-    category_colection = db["category"]
-    categories = list(category_colection.find())
+    categories = list(post_collection.distinct('category'))
     return jsonify(data=categories)
 
 # fetch news in category
-@app.route('/api/news/fetch/<string:category_path>/<int:p_>', methods=['GET'])
-def fetch_news(category_path, p_):
-    _lim = 20
-    _skip = _lim * (p_ - 1)
-    post_collection = db["post"]
-    if category_path == "trend":
-        posts = list(post_collection.find({"trend": True}, {
-                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
-    else:
-        posts = list(post_collection.find({"category": category_path}, {
-                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).sort("id",pymongo.DESCENDING).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find(
-            {"category": category_path}))) - len(posts) - _skip
-    if len(posts) == 0:
-        abort(404)
-    return jsonify(posts)
-
-
-@app.route('/api/news/status/<string:category_path>/<int:p_>', methods=['GET'])
-def status_news(category_path, p_):
-    _lim = 20
-    _skip = _lim * (p_ - 1)
-    post_collection = db["post"]
-    if category_path == "trend":
-        posts = list(post_collection.find({"trend": True}, {
-                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find({"trend":True}))) - len(posts) - _skip
-    else:
-        posts = list(post_collection.find({"category": category_path}, {
-                     'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
-        remain_len = len(list(post_collection.find(
-            {"category": category_path}))) - len(posts) - _skip
-    if len(posts) == 0:
-        abort(404)
-    _r = remain_len > 0
-    return jsonify(_r)
+@app.get('/api/news')
+def fetch_news():
+    args = dict(request.args)
+    category = args.get('category', None)
+    search_key = args.get('search', None)
+    page = int(args.get('page', 1))
+    _lim = 10
+    _skip = _lim * (page - 1)
+    query = {}
+    if category:
+        query.update({"category": category})
+    if search_key:
+        query.update({"$text": {"$search": search_key}})
+    posts = list(post_collection.find(query, {'title': 1, 'id': 1, 'image': 1, 'author': 1, '_id': 0}).skip(_skip).limit(_lim))
+    return jsonify(data=posts)
 
 def sumarization(_content, _rate):
     _data = utils.nomalize_document(_content)
@@ -97,7 +75,7 @@ def sumarization(_content, _rate):
                 cosines[i][j] = control.cosine_distance(_sent_vec[i], _sent_vec[j])
     rank = TextRank()
     rank.run(cosines)
-    _rate = (100 - _rate)/100
+    _rate = (100 - _rate * 100)/100
     _out_len = math.floor(len(list(rank.sorted_scores.keys())) * _rate)
     _out_key = list(rank.sorted_scores.keys())[:_out_len]
     _out_key.sort()
@@ -105,29 +83,30 @@ def sumarization(_content, _rate):
     return _out_list
 
 # get news with id
-@app.route('/api/news/get/<int:id_>/<int:rate_>', methods=['GET'])
-def get_news(id_, rate_):
-    post_collection = db["post"]
-    posts = list(post_collection.find({"id": id_}, {'_id': 0}))
-    if len(posts) == 0:
+@app.get('/api/news/<string:id_>')
+def get_news(id_):
+    compress = float(request.args.get('compress', 0.7))
+    post = post_collection.find_one({"id": id_}, {'_id': 0})
+    if not post:
         abort(404)
-    _content = posts[0]["content"]
-    posts[0].update({"image": posts[0]["image"][0]})
-    posts[0].update({"summar": _content})
+    _content = post.get("content", "")
+    post.update({"summary": _content})
     try:
-        _summar = sumarization(_content, rate_)
-        posts[0].update({"summar": ".\n".join(_summar)})
+        _summar = sumarization(_content, compress)
+        post.update({"summary": ".\n".join(_summar)})
         pass
     except:
         pass
-    return jsonify(posts[0])
+    return jsonify(data=post)
 
 # error handle
 @app.errorhandler(404)
 def not_found(error):
+    print(error)
     return make_response(jsonify(error="Not found"), 404)
 @app.errorhandler(500)
 def server_error(error):
+    print(error)
     return make_response(jsonify(error="Internal Server Error"), 500)
 
 if __name__ == '__main__':
